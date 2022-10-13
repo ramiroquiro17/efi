@@ -1,11 +1,15 @@
+from database import Database
+base = Database('stock','title','genre','principalActor','director','year','price')
+datos = base.select()
+
 class Pelicula:
-    def __init__(self,id,titulo,genero,year,director,protagonista,precio):
+    def __init__(self,id,titulo,genero,year,protagonista,director,precio):
         self.id = id
         self.titulo = titulo
         self.genero = genero
         self.year = year
-        self.director = director
         self.protagonista = protagonista
+        self.director = director
         self.precio = precio
         self.plazo = 15 #dias
         self.alquilado = False   
@@ -35,9 +39,14 @@ class Pelicula:
     def alquilar(self):
         self.alquilado = True
 
+stockDePeliculas= []
+for e in datos:
+    peli = Pelicula(e[0],e[1],e[2],e[3],e[4],e[5],e[6])
+    stockDePeliculas.append(peli)
+
 class Stock:
     def __init__(self):
-        self.stock = []
+        self.stock = stockDePeliculas
        
     def addPelicula(self):
         id = len(self.stock)+1
@@ -48,8 +57,9 @@ class Stock:
         protagonista = input('ingrese el protagonista: ')
         precio = int(input('ingrese el precio: '))
 
-        pelicula = Pelicula(id,titulo,genero,year,director,protagonista,precio)
+        pelicula = Pelicula(id,titulo,genero,year,protagonista,director,precio)
         self.stock.append(pelicula)
     
     def getStock(self):
         return self.stock
+

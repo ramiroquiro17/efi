@@ -1,12 +1,9 @@
-from personas import *
 from stock import *
 
 class App:
     def __init__(self):
         self.stock = Stock()
-        self.listastock = self.stock.getStock()
-        self.clientes = RegistroClientes()
-        self.listaclientes = self.clientes.getRegistroClientes()    
+        self.listastock = self.stock.getStock() 
     def Run(self):
        var = True
        while var:
@@ -15,11 +12,8 @@ class App:
     1.  Ver stock completo
     2.  Añadir película
     3.  Ver ficha de película
-    4.  Ver listado de clientes
-    5.  Añadir cliente
-    6.  Ver ficha de un cliente
-    7.  Alquilar una película
-    8.  Salir del programa
+    4.  Alquilar una película
+    5.  Salir del programa
     Seleccione la opción deseada: '''))
         if opcion == 1:
             print('Películas en stock:')
@@ -43,26 +37,6 @@ class App:
                 Estado: {e.getEstado()}''')
 
         elif opcion == 4:
-            print('la clientela esta formada por:')
-            for e in self.listaclientes:
-                print(f'N°) {e.getNumero()}, {e.getNombreCliente()}')
-
-        elif opcion == 5:
-           self.clientes.addCliente()
-
-        elif opcion == 6:
-            nro = int(input('nro de cliente: '))
-            for e in self.listaclientes:
-                if e.getNumero() == nro:
-                    print(f'''
-                FICHA DEL CLIENTE
-                Número: {e.getNumero()}
-                Nombre: {e.getNombreCliente()}
-                Dirección: {e.getDireccion()}
-                Teléfono: {e.getTelefono()}
-                Películas alquiladas: {e.getPelisAlquiladas()}''')
-
-        elif opcion == 7:
             print('Películas DISPONIBLES en stock:')
             for e in self.listastock:
                 if e.getEstado() == 'NO alquilada':
@@ -72,16 +46,8 @@ class App:
             for peli in self.listastock:
                 if idPelicula == peli.getId():
                     peli.alquilar()
-                    print('Clientela disponible para alquilar:')
-                    for c in self.listaclientes:
-                        print(f'N°{c.getNumero()}) {c.getNombreCliente()}')
-                    idCliente = int(input('Ingrese el nro del cliente que va a alquilar: '))
-                    for cliente in self.listaclientes:
-                        if idCliente == cliente.getNumero():
-                            cliente.pelisAlquiladas.append(peli.getTitulo())
-                            print(f'{cliente.getNombreCliente()} alquiló la película {peli.getTitulo()}')
 
-        elif opcion == 8:
+        elif opcion == 5:
             print('Gracias por utilizar este programa')
             var = False
         else:
