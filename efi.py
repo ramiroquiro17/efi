@@ -27,36 +27,12 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.botonFichaP) 
         self.botonFichaP.clicked.connect(self.getFichaP)
 
-        self.botonClientes = QPushButton('Ver listado de clientes') 
-        self.botonClientes.setDefault(True) 
-        layout.addWidget(self.botonClientes) 
-        self.botonClientes.clicked.connect(self.getClientes)
-
-        self.botonAnadirC = QPushButton('Añadir cliente') 
-        self.botonAnadirC.setDefault(True) 
-        layout.addWidget(self.botonAnadirC) 
-        self.botonAnadirC.clicked.connect(self.addClientes)
-
-        self.botonFichaC = QPushButton('Ver ficha de un cliente') 
-        self.botonFichaC.setDefault(True) 
-        layout.addWidget(self.botonFichaC) 
-        self.botonFichaC.clicked.connect(self.getFichaC)
 
         self.botonAlquilar = QPushButton('Alquilar una película') 
         self.botonAlquilar.setDefault(True) 
         layout.addWidget(self.botonAlquilar) 
         self.botonAlquilar.clicked.connect(self.alquilar)
 
-
-        self.botonEmpleados = QPushButton('Ver listado de empleados') 
-        self.botonEmpleados.setDefault(True) 
-        layout.addWidget(self.botonEmpleados) 
-        self.botonEmpleados.clicked.connect(self.getEmpleados)
-
-        self.botonAnadirE = QPushButton('Añadir empleado') 
-        self.botonAnadirE.setDefault(True) 
-        layout.addWidget(self.botonAnadirE) 
-        self.botonAnadirE.clicked.connect(self.addEmpleado)
 
         centralWidget = QWidget()
         centralWidget.setLayout(layout)
@@ -67,21 +43,10 @@ class MainWindow(QMainWindow):
            pass
     def getFichaP(self): 
            pass
-    def getClientes(self): 
-           pass
-    def addClientes(self): 
-           pass
-    def getFichaC(self): 
-           pass
     def alquilar(self): 
            pass
-    def getEmpleados(self): 
-           pass
-    def addEmpleado(self): 
-           pass
-    
 
-            
+    
 if __name__ == '__main__':
     app = QApplication()
     window = MainWindow()

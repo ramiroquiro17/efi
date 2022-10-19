@@ -1,6 +1,5 @@
 from database import Database
-base = Database('stock','title','genre','principalActor','director','year','price')
-datos = base.select()
+base = Database('stock','id','title','genre','principalActor','director','year','price')
 
 class Pelicula:
     def __init__(self,id,titulo,genero,year,protagonista,director,precio):
@@ -39,27 +38,31 @@ class Pelicula:
     def alquilar(self):
         self.alquilado = True
 
-stockDePeliculas= []
-for e in datos:
-    peli = Pelicula(e[0],e[1],e[2],e[3],e[4],e[5],e[6])
-    stockDePeliculas.append(peli)
-
 class Stock:
     def __init__(self):
-        self.stock = stockDePeliculas
+        datos = base.select()
+        self.stock = []
+        for e in datos:
+            peli = Pelicula(e[0],e[1],e[2],e[3],e[4],e[5],e[6])
+            self.stock.append(peli)
        
     def addPelicula(self):
-        id = len(self.stock)+1
+        ultimaPeli = self.stock[len(self.stock)-1]
+        idUltima = int(ultimaPeli.getId())
+        id = idUltima+1
         titulo = input('ingrese el titulo: ')
         genero = input('ingrese el genero: ')
         year = int(input('ingrese el año: '))
         director = input('ingrese el director: ')
         protagonista = input('ingrese el protagonista: ')
-        precio = int(input('ingrese el precio: '))
+        precio = float(input('ingrese el precio: '))
+        base.insert(id,titulo,genero,year,director,protagonista,precio)
 
-        pelicula = Pelicula(id,titulo,genero,year,protagonista,director,precio)
-        self.stock.append(pelicula)
-    
+    def deletePelicula(self):
+        id = int(input('Ingrese el id de la película a borrar: '))
+        base.delete(id)
+
     def getStock(self):
+        Stock.__init__(self)
         return self.stock
 

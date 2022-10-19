@@ -18,7 +18,8 @@ class Database:
             conn.execute(f"create table {base} {fieldNames}")
             print(f"\n{base} creada")
         except sqlite3.OperationalError:
-            print(f"\n{base} OK")
+            pass
+            # print(f"\n{base} OK")
         conn.close()
 
     def connection(self):
@@ -36,8 +37,8 @@ class Database:
         conn = self.connection()
         sql = f"SELECT * FROM {self.base}"
         recordSet = list(conn.execute(sql))
-        print(sql)
-        print(f"\nObtengo todas las filas de {self.base}\n")
+        # print(sql)
+        # print(f"\nObtengo todas las filas de {self.base}\n")
         conn.close()
         return recordSet
 
