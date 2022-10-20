@@ -1,12 +1,15 @@
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, 
     QLabel, QVBoxLayout, 
-    QWidget, QPushButton, QLineEdit)
+    QWidget, QPushButton, QLineEdit, QScrollArea)
+from PySide6.QtCore import Qt
 from stock import *
-
+from PySide6.QtGui import QIntValidator
+from qt_material import apply_stylesheet
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        
         self.stock = Stock()
         self.setWindowTitle("Menú Principal")        
 
@@ -56,6 +59,8 @@ class MainWindow(QMainWindow):
 class ventanaStock(QMainWindow):
     def __init__(self, listaStock):
         super().__init__()
+        self.scroll = QScrollArea()
+        self.widget = QWidget() 
         self.layout = layout = QVBoxLayout()
         self.mensaje = QLabel('Películas en stock:')
         layout.addWidget(self.mensaje) 
@@ -63,10 +68,16 @@ class ventanaStock(QMainWindow):
         for e in listaStock:
               self.peli = QLabel(f'Id: {e.getId()} - {e.getTitulo()}')
               layout.addWidget(self.peli) 
+        self.widget.setLayout(self.layout)
+        self.scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(self.widget)
 
-        centralWidget = QWidget()
-        centralWidget.setLayout(layout)
-        self.setCentralWidget(centralWidget)
+        self.setCentralWidget(self.scroll)
+
+        
+        self.show()
 class ventanaFichaP(QMainWindow):
     def __init__(self, listaStock):
         super().__init__()
@@ -76,13 +87,14 @@ class ventanaFichaP(QMainWindow):
         self.texto = QLabel('Id de película a buscar: ')
         layout.addWidget(self.texto)
 
-        self.id = QLineEdit()
+        self.id = InputInt()
         layout.addWidget(self.id)
+        
 
-        boton = QPushButton('conseguir Ficha') 
-        boton.setDefault(True) 
-        layout.addWidget(boton) 
-        boton.clicked.connect(self.getFicha)
+        self.boton = QPushButton('Conseguir Ficha') 
+        self.boton.setDefault(True) 
+        layout.addWidget(self.boton) 
+        self.boton.clicked.connect(self.getFicha)
 
         centralWidget = QWidget()
         centralWidget.setLayout(layout)
@@ -90,7 +102,7 @@ class ventanaFichaP(QMainWindow):
     def getFicha(self):
         for e in self.listaStock:
             if int(self.id.text()) == e.getId():
-                ficha = QLabel(f'''
+                self.ficha = QLabel(f'''
                         FICHA DE LA PELICULA    
                         Id: {e.getId()}
                         Título: {e.getTitulo()}
@@ -100,11 +112,40 @@ class ventanaFichaP(QMainWindow):
                         Protagonista: {e.getProtagonista()}
                         Precio: {e.getPrecio()}
                         Estado: {e.getEstado()}''')
-                self.layout.addWidget(ficha)
-         
+                self.layout.addWidget(self.ficha)
+        self.boton.close()
+        self.id.close()
+        self.texto.close()
+        self.boton2 = QPushButton('Buscar otra ficha') 
+        self.boton2.setDefault(True) 
+        self.layout.addWidget(self.boton2) 
+        self.boton2.clicked.connect(self.restablecer)
+    def restablecer(self):
+        self.ficha.close()
+        self.boton2.close()
+        self.texto = QLabel('Id de película a buscar: ')
+        self.layout.addWidget(self.texto)
+
+        self.id = InputInt()
+        self.layout.addWidget(self.id)
+        
+
+        self.boton = QPushButton('Conseguir Ficha') 
+        self.boton.setDefault(True) 
+        self.layout.addWidget(self.boton) 
+        self.boton.clicked.connect(self.getFicha)
+
+
+        
+
+class InputInt(QLineEdit):
+    def __init__(self):
+        super().__init__()
+        self.setValidator(QIntValidator()) 
+
 if __name__ == '__main__':
     app = QApplication()
+    apply_stylesheet(app, theme='dark_cyan.xml')
     window = MainWindow()
     window.show()
     app.exec()
-      
